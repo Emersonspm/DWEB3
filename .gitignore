@@ -1,0 +1,8 @@
+//-- arquivo .gitignore em dw3/
+node_modules/
+//-- Comando git para enviar os arquivos locais para o repositório remoto
+git add .
+git commit -m "texto"
+git push -u origin main
+-- vai solicitar o usuário do github
+-- vai solicitar a senha que é o TOKEN do usuário
