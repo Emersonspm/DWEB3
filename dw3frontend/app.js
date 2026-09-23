@@ -33,8 +33,6 @@ app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/home', homeRouter);
 app.use('/alunos', alunosRouter);
-app.use('/cursos', cursosRouter);
-
 
 app.use(function(req, res, next) {
   next(createError(404));
