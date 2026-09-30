@@ -1,27 +1,37 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Limpa o Cookie Islogged
     dw3ClearIsLoggedCookie();
+
     var form = document.getElementById('loginForm');
     var errorBox = document.getElementById('loginError');
+
     if (!form) {
         return;
     }
+
+    // Submete os dados de Login
     form.addEventListener('submit', async function (event) {
         event.preventDefault();
-        var servidorDw3 = form.dataset.servidorDw3; // Valor que vem de routes/rtLogin.js
+
+        var servidorDw3 = form.dataset.servidorDw3;
+        if (servidorDw3) {
+            servidorDw3 = servidorDw3.replace(/["']/g, '').trim();
+        }
         var usuario = document.getElementById('usuario').value;
         var senha = document.getElementById('senha').value;
         var submitButton = form.querySelector('button[type="submit"]');
+
         if (errorBox) {
             errorBox.classList.add('d-none');
             errorBox.textContent = '';
         }
+
         if (submitButton) {
             submitButton.disabled = true;
             submitButton.textContent = 'Entrando...';
         }
+
         try {
-            console.log("servidorDW3:", servidorDw3);
             var response = await fetch(servidorDw3 + '/Login', {
                 method: 'POST',
                 headers: {
@@ -32,16 +42,21 @@ document.addEventListener('DOMContentLoaded', function () {
                     password: senha
                 })
             });
+
             if (!response.ok) {
-                throw new Error('Usuario ou senha inválidos.');
+                throw new Error('Usuário ou senha inválidos.');
             }
+
             var data = await response.json();
             var token = data.token || data.Token || data.accessToken || data.AccessToken;
+
             if (!token) {
-                throw new Error('Erro no login. Token não retornado pelo servidor.');
+                throw new Error('Token não retornado pelo servidor.');
             }
-            localStorage.setItem('token', token); // Salva o token para ser usado na chamadas ao backend.
+
+            localStorage.setItem('token', token);
             document.cookie = 'IsLogged=true; path=/'; // Usado ara verificar se o usuário está ou não logado.
+
             window.location.href = '/home';
         } catch (error) {
             if (errorBox) {

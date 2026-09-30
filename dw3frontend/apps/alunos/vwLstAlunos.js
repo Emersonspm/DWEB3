@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   if (!dw3IsLogged()) {
     return;
   }
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     return;
   }
 
-  var servidorDw3 = listagem.dataset.servidorDw3;
+  var servidorDw3 = listagem.dataset.servidorDw3 ? listagem.dataset.servidorDw3.replace(/^["']|["']$/g, '') : '';
 
   configurarOperacoesAlunos(alertBox);
   carregarAlunos(servidorDw3, alertBox);
@@ -52,7 +52,7 @@ function inicializarTabelaAlunos(alunos) {
       {
         data: 'rendafamiliar',
         defaultContent: '',
-        render: function(data) {
+        render: function (data) {
           if (data === null || data === undefined || data === '') {
             return '';
           }
@@ -66,7 +66,7 @@ function inicializarTabelaAlunos(alunos) {
       {
         data: 'datanascimento',
         defaultContent: '',
-        render: function(data) {
+        render: function (data) {
           if (!data) {
             return '';
           }
@@ -79,7 +79,7 @@ function inicializarTabelaAlunos(alunos) {
         data: null,
         orderable: false,
         searchable: false,
-        render: function(data, type, row) {
+        render: function (data, type, row) {
           if (type !== 'display') {
             return '';
           }
@@ -123,7 +123,7 @@ function configurarOperacoesAlunos(alertBox) {
     return;
   }
 
-  tabela.addEventListener('click', function(event) {
+  tabela.addEventListener('click', function (event) {
     var botao = event.target.closest('button[data-action][data-alunoid]');
 
     if (!botao) {
